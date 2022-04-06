@@ -5,10 +5,11 @@ const updateScreen = (number) => {
 }
 
 const numbers = document.querySelectorAll(".number")
+// console.log(numbers)
 
 numbers.forEach((number) => {
     number.addEventListener("click", (event) => {
-        console.log(event.target.value)
+        updateScreen(event.target.value)
     })
 })
 
@@ -18,7 +19,7 @@ let currentNumber = '0'
 
 const inputNumber = (number) => {
     if(currentNumber === '0') {
-        currentNumber = number;
+        currentNumber = number
     }else{
         currentNumber += number
     }
@@ -31,14 +32,6 @@ numbers.forEach((number) => {
     })
 })
 
-const operators = document.querySelectorAll(".operator")
-
-operators.forEach((operator) => {
-    operator.addEventListener("click", (event) =>{
-        console.log(event.target.value)
-    })
-})
-
 const inputOperator = (operator) => {
     if(calculationOperator === ''){
         prevNumber = currentNumber
@@ -46,6 +39,16 @@ const inputOperator = (operator) => {
     calculationOperator = operator
     currentNumber = '0'
 }
+
+const operators = document.querySelectorAll(".operator")
+
+operators.forEach((operator) => {
+    operator.addEventListener("click", (event) =>{
+        inputOperator(event.target.value)
+    })
+})
+
+
 
 const equalSign = document.querySelector('.equal-sign')
 
@@ -61,13 +64,13 @@ const calculate = () => {
             result = parseFloat(prevNumber) + parseFloat(currentNumber) 
             break
         case "-":
-            result = parseInt(prevNumber) - parseInt(currentNumber)
+            result = parseFloat(prevNumber) - parseFloat(currentNumber)
             break
         case "*":
-            result = parseInt(prevNumber) * parseInt(currentNumber)
+            result = parseFloat(prevNumber) * parseFloat(currentNumber)
             break
         case "/":
-            result = parseInt(prevNumber) / parseInt(currentNumber)
+            result = parseFloat(prevNumber) / parseFloat(currentNumber)
             break
         default:
             break
@@ -78,18 +81,23 @@ const calculate = () => {
 
 const clearBtn = document.querySelector('.all-clear')
 
-clearBtn.addEventListener('click', () => {
-    clearAll()
-    updateScreen(currentNumber)
-})
-
 const clearAll = () => {
     prevNumber = ''
     calculationOperator = ''
     currentNumber = '0'
 }
 
+clearBtn.addEventListener('click', () => {
+    clearAll()
+    updateScreen(currentNumber)
+})
+
 const decimal = document.querySelector('.decimal')
+
+decimal.addEventListener('click', (event) => {
+    inputDecimal(event.target.value)
+    updateScreen(currentNumber)
+})
 
 inputDecimal = (dot) => {
     if(currentNumber.includes('.')) {
@@ -97,8 +105,3 @@ inputDecimal = (dot) => {
     }
     currentNumber += dot
 }
-
-decimal.addEventListener('click', (event) => {
-    inputDecimal(event.target.value)
-    updateScreen(currentNumber)
-})
